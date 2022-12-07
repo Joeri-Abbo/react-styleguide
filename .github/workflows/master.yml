@@ -1,0 +1,13 @@
+name: Pipeline
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+jobs:
+  test:
+    needs:
+      - init
+    uses: ./.github/workflows/node-test.yml
+    secrets: inherit
+    with:
+      node-version: 16.x
