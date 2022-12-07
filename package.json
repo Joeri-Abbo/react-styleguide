@@ -5,7 +5,7 @@
     "dependencies": {
         "@babel/plugin-proposal-optional-chaining": "^7.9.0",
         "customize-cra": "^0.9.1",
-        "polished": "^3.5.2",
+        "polished": "^4.2.2",
         "react": "^16.13.1",
         "react-app-polyfill": "^1.0.6",
         "react-app-rewired": "^2.1.5",
