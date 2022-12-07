@@ -26,7 +26,7 @@ const Home = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        document.title = 'Home | Fivoor Styleguide';
+        document.title = 'Home | Styleguide';
     }, []);
 
     const checkData = data => {

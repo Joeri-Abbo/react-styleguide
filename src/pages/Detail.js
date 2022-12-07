@@ -60,7 +60,7 @@ const Detail = ({ match }) => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        document.title = `${page.charAt(0).toUpperCase() + page.slice(1)} | Fivoor Styleguide`; //TODO: Make this dynamic
+        document.title = `${page.charAt(0).toUpperCase() + page.slice(1)} | Styleguide`;
     }, [page]);
 
     const checkData = data => {
