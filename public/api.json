@@ -1,0 +1,5 @@
+{
+  "apiUrl": "http://localhost:8080/api/styleguide/v1/site",
+  "logo": "http://localhost:8080/wp-content/assets/2022/12/logo-symbol-white.78177502.svg",
+  "backgroundColor": "#9EBAC0"
+}
