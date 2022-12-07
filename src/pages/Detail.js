@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Route, Switch, __RouterContext } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import { __RouterContext } from 'react-router';
 import { useTransition, useSpring, useChain, animated } from 'react-spring';
 import styled from 'styled-components';
 import Loader from '../components/base/Loader';
@@ -72,7 +73,7 @@ const Detail = ({ match }) => {
         <ContentConsumer>
             {({ error, guides, general }) => {
                 if (typeof error !== 'undefined' && error.isError) {
-                    return <Redirect to="/error" />;
+                    return <Redirect to='/error' />;
                 } else {
                     checkData(guides);
                     return transition.map(({ item, key, props }) =>
@@ -93,13 +94,13 @@ const Detail = ({ match }) => {
                                         item && (
                                             <CopyWrapper key={key} style={transitions}>
                                                 <Switch location={item}>
-                                                    <Route exact path="/guides/:guide/:page" component={Copy} />
+                                                    <Route exact path='/guides/:guide/:page' component={Copy} />
                                                 </Switch>
                                             </CopyWrapper>
-                                        )
+                                        ),
                                 )}
                             </CopyWrapper>
-                        )
+                        ),
                     );
                 }
             }}
@@ -113,7 +114,7 @@ const Detail = ({ match }) => {
  */
 
 const CopyWrapper = styled(animated.div)`
-    position: absolute;
-    width: 100%;
+  position: absolute;
+  width: 100%;
 `;
 export default Detail;
