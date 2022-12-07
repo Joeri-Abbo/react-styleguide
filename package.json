@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "dependencies": {
-        "@babel/plugin-proposal-optional-chaining": "^7.9.0",
+        "@babel/plugin-proposal-optional-chaining": "^7.18.9",
         "customize-cra": "^0.9.1",
         "polished": "^4.2.2",
         "react": "^16.13.1",
