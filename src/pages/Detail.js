@@ -19,9 +19,7 @@ const Detail = ({ match }) => {
     const { location } = useRouter();
 
     const transition = useTransition(isLoading, null, {
-        from: { opacity: 0 },
-        enter: { opacity: 1 },
-        leave: { opacity: 0 },
+        from: { opacity: 0 }, enter: { opacity: 1 }, leave: { opacity: 0 },
     });
 
     const navRef = useRef();
@@ -29,28 +27,22 @@ const Detail = ({ match }) => {
     const navWidth = window.outerWidth >= 1280 ? '20vw' : '25vw';
 
     const { width } = useSpring({
-        ref: navRef,
-        from: {
+        ref: navRef, from: {
             width: '100vw',
-        },
-        to: {
+        }, to: {
             width: navWidth,
         },
     });
 
     const copyRef = useRef();
     const copyTransition = useTransition(location, location => location.pathname, {
-        ref: copyRef,
-        from: {
+        ref: copyRef, from: {
             transform: 'translate3d(0, 200vh, 0)',
-        },
-        enter: {
+        }, enter: {
             transform: 'translate3d(0, 0, 0)',
-        },
-        leave: {
+        }, leave: {
             transform: 'translate3d(0, 200vh, 0)',
-        },
-        config: {
+        }, config: {
             duration: 460,
         },
     });
@@ -68,43 +60,32 @@ const Detail = ({ match }) => {
         }
     };
 
-    return (
-        <ContentConsumer>
-            {({ error, guides, general }) => {
-                if (typeof error !== 'undefined' && error.isError) {
-                    return <Redirect to="/error" />;
-                } else {
-                    checkData(guides);
-                    return transition.map(({ item, key, props }) =>
-                        item ? (
-                            <Loader key={key} />
-                        ) : (
-                            <CopyWrapper key={key} style={props}>
-                                <Navigation
-                                    navGuides={guides}
-                                    activeGuide={guide}
-                                    activePage={page}
-                                    colors={general.colors.menu}
-                                    style={{ width: width }}
-                                />
+    return (<ContentConsumer>
+        {({ error, guides, general }) => {
+            if (typeof error !== 'undefined' && error.isError) {
+                return <Redirect to='/error' />;
+            } else {
+                checkData(guides);
+                return transition.map(({ item, key, props }) => item ? (<Loader key={key} />) : (
+                    <CopyWrapper key={key} style={props}>
+                        <Navigation
+                            navGuides={guides}
+                            activeGuide={guide}
+                            activePage={page}
+                            colors={general.colors.menu}
+                            style={{ width: width }}
+                        />
 
-                                {copyTransition.reverse().map(
-                                    ({ item, props: transitions, key }) =>
-                                        item && (
-                                            <CopyWrapper key={key} style={transitions}>
-                                                <Switch location={item}>
-                                                    <Route exact path="/guides/:guide/:page" component={Copy} />
-                                                </Switch>
-                                            </CopyWrapper>
-                                        )
-                                )}
-                            </CopyWrapper>
-                        )
-                    );
-                }
-            }}
-        </ContentConsumer>
-    );
+                        {copyTransition.reverse().map(({ item, props: transitions, key }) => item && (
+                            <CopyWrapper key={key} style={transitions}>
+                                <Switch location={item}>
+                                    <Route exact path='/guides/:guide/:page' component={Copy} />
+                                </Switch>
+                            </CopyWrapper>))}
+                    </CopyWrapper>));
+            }
+        }}
+    </ContentConsumer>);
 };
 
 /*
@@ -113,7 +94,7 @@ const Detail = ({ match }) => {
  */
 
 const CopyWrapper = styled(animated.div)`
-    position: absolute;
-    width: 100%;
+  position: absolute;
+  width: 100%;
 `;
 export default Detail;

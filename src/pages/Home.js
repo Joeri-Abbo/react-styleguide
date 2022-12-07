@@ -13,15 +13,11 @@ const Home = () => {
     const [isLoading, setLoading] = useState(true);
 
     const transition = useTransition(isLoading, null, {
-        from: { opacity: 0 },
-        enter: { opacity: 1 },
-        leave: { opacity: 0 },
+        from: { opacity: 0 }, enter: { opacity: 1 }, leave: { opacity: 0 },
     });
 
     const transitionFadeUp = useTransition(!isLoading, null, {
-        from: { opacity: 0 },
-        enter: { opacity: 1 },
-        leave: { opacity: 0 },
+        from: { opacity: 0 }, enter: { opacity: 1 }, leave: { opacity: 0 },
     });
 
     useEffect(() => {
@@ -35,39 +31,31 @@ const Home = () => {
         }
     };
 
-    return (
-        <>
-            <ContentConsumer>
-                {({ error, homepage, general, guides }) => {
-                    if (typeof error !== 'undefined' && error.isError) {
-                        return <Redirect to="/error" />;
-                    } else {
-                        checkData(homepage);
-                        return transition.map(({ item, key, props }) =>
-                            item ? (
-                                <Loader style={props} key={key} />
-                            ) : (
-                                transitionFadeUp.map(({ key }) => (
-                                    <StyledBackground backgroundcolor={general.colors.homepage.background} key={key}>
-                                        <StyledHomePage>
-                                            <Contain maxWidth={true} padding="normal">
-                                                <Intro intro={homepage.intro} />
-                                                <StyledCards>
-                                                    <Grid gutter="tiny">
-                                                        <HomepageCards cards={guides} />
-                                                    </Grid>
-                                                </StyledCards>
-                                            </Contain>
-                                        </StyledHomePage>
-                                    </StyledBackground>
-                                ))
-                            )
-                        );
-                    }
-                }}
-            </ContentConsumer>
-        </>
-    );
+    return (<>
+        <ContentConsumer>
+            {({ error, homepage, general, guides }) => {
+                if (typeof error !== 'undefined' && error.isError) {
+                    return <Redirect to='/error' />;
+                } else {
+                    checkData(homepage);
+                    return transition.map(({ item, key, props }) => item ? (
+                        <Loader style={props} key={key} />) : (transitionFadeUp.map(({ key }) => (
+                        <StyledBackground backgroundcolor={general.colors.homepage.background} key={key}>
+                            <StyledHomePage>
+                                <Contain maxWidth={true} padding='normal'>
+                                    <Intro intro={homepage.intro} />
+                                    <StyledCards>
+                                        <Grid gutter='tiny'>
+                                            <HomepageCards cards={guides} />
+                                        </Grid>
+                                    </StyledCards>
+                                </Contain>
+                            </StyledHomePage>
+                        </StyledBackground>))));
+                }
+            }}
+        </ContentConsumer>
+    </>);
 };
 
 /*
@@ -76,17 +64,17 @@ const Home = () => {
  */
 
 const StyledBackground = styled.div`
-    background-color: ${props => props.backgroundcolor};
-    color: white;
+  background-color: ${props => props.backgroundcolor};
+  color: white;
 `;
 
 const StyledHomePage = styled.div`
-    padding-top: 78px;
-    padding-bottom: 78px;
+  padding-top: 78px;
+  padding-bottom: 78px;
 `;
 
 const StyledCards = styled.div`
-    margin-top: 91px;
+  margin-top: 91px;
 `;
 
 export default Home;

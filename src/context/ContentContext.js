@@ -3,8 +3,7 @@ import { getData } from '../functions/helpers';
 import defaultSettings from '../resources/json/default-settings.json';
 
 const ContentContext = createContext({
-    loaded: false,
-    error: false,
+    loaded: false, error: false,
 });
 
 export class ContentProvider extends Component {
@@ -15,28 +14,23 @@ export class ContentProvider extends Component {
     state = {};
 
     fetchData = url => {
-        getData(url).then(
-            result => {
-                if (result.code || result.general.domain === null) {
-                    this.setState({
-                        error: {
-                            isError: true,
-                            message: 'Network error',
-                        },
-                    });
-                } else {
-                    this.updateContent(result);
-                }
-            },
-            error => {
+        getData(url).then(result => {
+            if (result.code || result.general.domain === null) {
                 this.setState({
                     error: {
-                        isError: true,
-                        message: error,
+                        isError: true, message: 'Network error',
                     },
                 });
+            } else {
+                this.updateContent(result);
             }
-        );
+        }, error => {
+            this.setState({
+                error: {
+                    isError: true, message: error,
+                },
+            });
+        });
     };
 
     componentDidMount() {
