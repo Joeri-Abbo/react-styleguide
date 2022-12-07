@@ -8,4 +8,4 @@ jobs:
     uses: ./.github/workflows/node-test.yml
     secrets: inherit
     with:
-      node-version: 16.x
+      node-version: 19.x
