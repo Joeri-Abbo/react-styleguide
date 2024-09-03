@@ -16,7 +16,7 @@
         "react-is": "^18.2.0",
         "react-router-dom": "^6.24.1",
         "react-scripts": "^5.0.1",
-        "react-spring": "^9.7.3",
+        "react-spring": "^9.7.4",
         "styled-components": "^6.1.8",
         "typescript": "^5.5.3",
         "webfontloader": "^1.6.28"
