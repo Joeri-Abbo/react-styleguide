@@ -13,11 +13,11 @@
         "react-dom": "^18.3.1",
         "react-helmet": "^6.0.0",
         "react-html-parser": "^2.0.2",
-        "react-is": "^18.2.0",
-        "react-router-dom": "^7.0.1",
+        "react-is": "^18.3.1",
+        "react-router-dom": "^7.13.2",
         "react-scripts": "^5.0.1",
-        "react-spring": "^9.7.3",
-        "styled-components": "^6.1.8",
+        "react-spring": "^9.7.5",
+        "styled-components": "^6.1.13",
         "typescript": "^5.7.2",
         "webfontloader": "^1.6.28"
     },
@@ -29,6 +29,13 @@
     },
     "eslintConfig": {
         "extends": "react-app"
+    },
+    "jest": {
+        "moduleNameMapper": {
+            "^react-router-dom$": "<rootDir>/node_modules/react-router-dom/dist/index.js",
+            "^react-router/dom$": "<rootDir>/node_modules/react-router/dist/development/dom-export.js",
+            "^react-router$": "<rootDir>/node_modules/react-router/dist/development/index.js"
+        }
     },
     "browserslist": {
         "production": [

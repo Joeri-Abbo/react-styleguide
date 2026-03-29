@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Redirect } from 'react-router-dom';
-import { Route, Switch } from 'react-router-dom';
-import { __RouterContext } from 'react-router';
+import React, { useState, useEffect, useRef } from 'react';
+import { Navigate, Routes, Route, useLocation } from 'react-router-dom';
 import { useTransition, useSpring, useChain, animated } from 'react-spring';
 import styled from 'styled-components';
 import Loader from '../components/base/Loader';
@@ -11,15 +9,11 @@ import { ContentConsumer } from '../context/ContentContext';
 
 const Detail = ({ match }) => {
     const [isLoading, setLoading] = useState(true);
-    const { guide, page } = match.params;
+    const { guide, page } = match ? match.params : {};
 
-    function useRouter() {
-        return useContext(__RouterContext);
-    }
+    const location = useLocation();
 
-    const { location } = useRouter();
-
-    const transition = useTransition(isLoading, null, {
+    const transition = useTransition(isLoading, {
         from: { opacity: 0 },
         enter: { opacity: 1 },
         leave: { opacity: 0 },
@@ -40,8 +34,9 @@ const Detail = ({ match }) => {
     });
 
     const copyRef = useRef();
-    const copyTransition = useTransition(location, location => location.pathname, {
+    const copyTransition = useTransition(location, {
         ref: copyRef,
+        keys: loc => loc.pathname,
         from: {
             transform: 'translate3d(0, 200vh, 0)',
         },
@@ -59,8 +54,10 @@ const Detail = ({ match }) => {
     useChain([navRef, copyRef], [0, 0.5]);
 
     useEffect(() => {
-        window.scrollTo(0, 0);
-        document.title = `${page.charAt(0).toUpperCase() + page.slice(1)} | Styleguide`;
+        if (page) {
+            window.scrollTo(0, 0);
+            document.title = `${page.charAt(0).toUpperCase() + page.slice(1)} | Styleguide`;
+        }
     }, [page]);
 
     const checkData = data => {
@@ -73,14 +70,14 @@ const Detail = ({ match }) => {
         <ContentConsumer>
             {({ error, guides, general }) => {
                 if (typeof error !== 'undefined' && error.isError) {
-                    return <Redirect to='/error' />;
+                    return <Navigate to='/error' replace />;
                 } else {
                     checkData(guides);
-                    return transition.map(({ item, key, props }) =>
+                    return transition((style, item) =>
                         item ? (
-                            <Loader key={key} />
+                            <Loader />
                         ) : (
-                            <CopyWrapper key={key} style={props}>
+                            <CopyWrapper style={style}>
                                 <Navigation
                                     navGuides={guides}
                                     activeGuide={guide}
@@ -89,18 +86,17 @@ const Detail = ({ match }) => {
                                     style={{ width: width }}
                                 />
 
-                                {copyTransition.reverse().map(
-                                    ({ item, props: transitions, key }) =>
-                                        item && (
-                                            <CopyWrapper key={key} style={transitions}>
-                                                <Switch location={item}>
-                                                    <Route exact path='/guides/:guide/:page' component={Copy} />
-                                                </Switch>
-                                            </CopyWrapper>
-                                        ),
+                                {copyTransition((transitions, loc) =>
+                                    loc && (
+                                        <CopyWrapper style={transitions}>
+                                            <Routes location={loc}>
+                                                <Route path='/guides/:guide/:page' element={<Copy />} />
+                                            </Routes>
+                                        </CopyWrapper>
+                                    )
                                 )}
                             </CopyWrapper>
-                        ),
+                        )
                     );
                 }
             }}

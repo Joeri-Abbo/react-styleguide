@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
-import { useTransition } from 'react-spring';
+import { Navigate } from 'react-router-dom';
+import { useTransition, animated } from 'react-spring';
 import styled from 'styled-components';
 import Grid from '../components/grid/Grid';
 import Contain from '../components/base/Contain';
@@ -12,13 +12,7 @@ import { ContentConsumer } from '../context/ContentContext';
 const Home = () => {
     const [isLoading, setLoading] = useState(true);
 
-    const transition = useTransition(isLoading, null, {
-        from: { opacity: 0 },
-        enter: { opacity: 1 },
-        leave: { opacity: 0 },
-    });
-
-    const transitionFadeUp = useTransition(!isLoading, null, {
+    const transition = useTransition(isLoading, {
         from: { opacity: 0 },
         enter: { opacity: 1 },
         leave: { opacity: 0 },
@@ -40,15 +34,15 @@ const Home = () => {
             <ContentConsumer>
                 {({ error, homepage, general, guides }) => {
                     if (typeof error !== 'undefined' && error.isError) {
-                        return <Redirect to="/error" />;
+                        return <Navigate to="/error" replace />;
                     } else {
                         checkData(homepage);
-                        return transition.map(({ item, key, props }) =>
+                        return transition((style, item) =>
                             item ? (
-                                <Loader style={props} key={key} />
+                                <Loader style={style} />
                             ) : (
-                                transitionFadeUp.map(({ key }) => (
-                                    <StyledBackground backgroundcolor={general.colors.homepage.background} key={key}>
+                                <animated.div style={style}>
+                                    <StyledBackground backgroundcolor={general.colors.homepage.background}>
                                         <StyledHomePage>
                                             <Contain maxWidth={true} padding="normal">
                                                 <Intro intro={homepage.intro} />
@@ -60,7 +54,7 @@ const Home = () => {
                                             </Contain>
                                         </StyledHomePage>
                                     </StyledBackground>
-                                ))
+                                </animated.div>
                             )
                         );
                     }
